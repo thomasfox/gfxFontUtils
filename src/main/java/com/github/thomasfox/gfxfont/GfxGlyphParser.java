@@ -1,129 +1,59 @@
 package com.github.thomasfox.gfxfont;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GfxGlyphParser
 {
-  private String gfxFontBitmapsString;
-  private String gfxFontGlyphsString;
+  private byte[] gfxFontBitmap;
 
-  private int fontGlyphStringParsePosition = -1;
-  private String currentGlyphString = null;
-  private int withinGlyphParsePosition;
-  private String withinGlyphCurrentArgument;
+  private final GfxFontBitmapParser gfxFontBitmapParser;
+
+  private final GfxFontGlyphsStringParser gfxFontGlyphsStringParser;
 
   public GfxGlyphParser(String gfxFontBitmapsString, String gfxFontGlyphsString)
   {
-    this.gfxFontBitmapsString = gfxFontBitmapsString;
-    this.gfxFontGlyphsString = gfxFontGlyphsString;
+    gfxFontBitmapParser = new GfxFontBitmapParser(gfxFontBitmapsString);
+    gfxFontGlyphsStringParser = new GfxFontGlyphsStringParser(gfxFontGlyphsString);
   }
 
   public List<Glyph> parse()
   {
-    List<Glyph> result = new ArrayList<>();
+    gfxFontBitmap = gfxFontBitmapParser.parse();
 
-    while (true)
+    List<Glyph> result = gfxFontGlyphsStringParser.parse();
+    for (Glyph glyph : result)
     {
-      nextGlyphString();
-      if (currentGlyphString == null)
-      {
-        break;
-      }
-      result.add(parseGlyphString());
+      addBitmapToGlyph(glyph);
     }
 
     return result;
   }
 
-  void nextGlyphString()
+  void addBitmapToGlyph(Glyph glyph)
   {
-    int startPosition = gfxFontGlyphsString.indexOf('{', fontGlyphStringParsePosition);
-    if (startPosition == -1)
+    boolean[][] bitmap = new boolean[glyph.width][glyph.height];
+    int bitmapOffsetBytePart = glyph.bitmapOffset;
+    int mask = 0x80;
+    for (int y = 0; y < glyph.height; y++)
     {
-      currentGlyphString = null;
-      return;
-    }
-    int endPosition = gfxFontGlyphsString.indexOf('}', startPosition);
-    currentGlyphString = gfxFontGlyphsString.substring(startPosition + 1, endPosition);
-    fontGlyphStringParsePosition = endPosition + 1;
-  }
-
-  Glyph parseGlyphString()
-  {
-    Glyph result = new Glyph();
-    withinGlyphParsePosition = -1;
-    result.bitmapOffset = nextArgumentIntInGlyph();
-    result.width = nextArgumentIntInGlyph();
-    result.height = nextArgumentIntInGlyph();
-    result.xAdvance = nextArgumentIntInGlyph();
-    result.xOffset = nextArgumentIntInGlyph();
-    result.yOffset = nextArgumentIntInGlyph();
-
-    return result;
-  }
-
-  void nextArgumentStringInGlyph()
-  {
-    int nextCommaPosition = currentGlyphString.indexOf(',', withinGlyphParsePosition);
-    if (nextCommaPosition == -1)
-    {
-      if (withinGlyphParsePosition >= currentGlyphString.length())
+      for (int x = 0; x < glyph.width; x++)
       {
-        throw new RuntimeException("past end in current glyph " + currentGlyphString);
+        byte bitmapByte = gfxFontBitmap[bitmapOffsetBytePart];
+        bitmap[x][y] = (bitmapByte & mask) != 0;
+        mask >>= 1;
+        if (mask == 0)
+        {
+          mask = 0x80;
+          bitmapOffsetBytePart++;
+        }
       }
-      nextCommaPosition = currentGlyphString.length();
     }
-    withinGlyphCurrentArgument
-        = currentGlyphString.substring(withinGlyphParsePosition + 1, nextCommaPosition);
-    withinGlyphParsePosition = nextCommaPosition + 1;
+    glyph.bitmap =  bitmap;
   }
 
-  Integer nextArgumentIntInGlyph()
+  void setGfxFontBitmap(byte[] gfxFontBitmap)
   {
-    nextArgumentStringInGlyph();
-    return Integer.parseInt(withinGlyphCurrentArgument);
+    this.gfxFontBitmap = gfxFontBitmap;
   }
 
-  // state access for tests in methods below
-
-  int getFontGlyphStringParsePosition()
-  {
-    return fontGlyphStringParsePosition;
-  }
-
-  void setFontGlyphStringParsePosition(int fontGlyphStringParsePosition)
-  {
-    this.fontGlyphStringParsePosition = fontGlyphStringParsePosition;
-  }
-
-  String getCurrentGlyphString()
-  {
-    return currentGlyphString;
-  }
-
-  void setCurrentGlyphString(String currentGlyphString)
-  {
-    this.currentGlyphString = currentGlyphString;
-  }
-
-  int getWithinGlyphParsePosition()
-  {
-    return withinGlyphParsePosition;
-  }
-
-  void setWithinGlyphParsePosition(int withinGlyphParsePosition)
-  {
-    this.withinGlyphParsePosition = withinGlyphParsePosition;
-  }
-
-  public String getWithinGlyphCurrentArgument()
-  {
-    return withinGlyphCurrentArgument;
-  }
-
-  public void setWithinGlyphCurrentArgument(String withinGlyphCurrentArgument)
-  {
-    this.withinGlyphCurrentArgument = withinGlyphCurrentArgument;
-  }
 }

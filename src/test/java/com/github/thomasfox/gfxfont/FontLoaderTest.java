@@ -65,5 +65,29 @@ public class FontLoaderTest
     assertThat(fontLoader.getFontString()).startsWith("(uint8_t *)").endsWith("0x21, 18");
     assertThat(fontLoader.getBitmapsString().trim()).startsWith("0x00, 0x11, 0x22, ").endsWith("0xDD, 0xEE, 0xFF");
     assertThat(fontLoader.getGlyphsString().trim()).startsWith("{0, 0, 0, 11, 0, 1},").endsWith("11, 4, -10}");
+    Glyph expectedFirstGlyph = new Glyph();
+    expectedFirstGlyph.bitmapOffset = 0;
+    expectedFirstGlyph.width = 0;
+    expectedFirstGlyph.height = 0;
+    expectedFirstGlyph.xAdvance = 11;
+    expectedFirstGlyph.xOffset = 0;
+    expectedFirstGlyph.yOffset = 1;
+    expectedFirstGlyph.bitmap = new boolean[0][0];
+
+    Glyph expectedSecondGlyph = new Glyph();
+    expectedSecondGlyph.bitmapOffset = 0;
+    expectedSecondGlyph.width = 2;
+    expectedSecondGlyph.height = 11;
+    expectedSecondGlyph.xAdvance = 11;
+    expectedSecondGlyph.xOffset = 4;
+    expectedSecondGlyph.yOffset = -10;
+    expectedSecondGlyph.bitmap = new boolean[][] {
+        {false, false, false, false, false, false, false, false, false, true, false},
+        {false, false, false, false, false, true, false, true, false, false, false}};
+
+    assertThat(fontLoader.getGlyphs()).containsExactly(
+        expectedFirstGlyph,
+        expectedSecondGlyph
+    );
   }
 }

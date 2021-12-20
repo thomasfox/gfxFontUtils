@@ -2,6 +2,7 @@ package com.github.thomasfox.gfxfont;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class FontLoader
 {
@@ -10,6 +11,8 @@ public class FontLoader
   private String fontString;
 
   private String bitmapsString;
+
+  List<Glyph> glyphs;
 
   public void load(String filename)
   {
@@ -25,10 +28,12 @@ public class FontLoader
       String glyphsVariableName
           = getTrimmedContentBetweenRoundClosingBracketAndComma(getAfterNthComma(1, fontString));
       glyphsString = getContentInCurlyBracketsAfterKeyword(glyphsVariableName + "[]", fileContent);
+
+      glyphs = new GfxGlyphParser(bitmapsString, glyphsString).parse();
     }
     catch (Exception e)
     {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
   }
 
@@ -90,4 +95,8 @@ public class FontLoader
     return glyphsString;
   }
 
+  public List<Glyph> getGlyphs()
+  {
+    return glyphs;
+  }
 }

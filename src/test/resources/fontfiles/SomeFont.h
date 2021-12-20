@@ -3,7 +3,7 @@ const uint8_t SomeDummyFontBitmaps[] PROGMEM = {
     0xCC, 0xDD, 0xEE, 0xFF};
 
 const GFXglyph SomeDummyFontGlyphs[] PROGMEM = {
-    {0, 0, 0, 11, 0, 1},      // 0x20 ' '
+    {0, 0, 0, 11, 0, 1},      // 0x7B '{'
     {0, 2, 11, 11, 4, -10}};  // 0x21 '!'
 
 const GFXfont SomeDummyFont PROGMEM = {(uint8_t *)SomeDummyFontBitmaps,
