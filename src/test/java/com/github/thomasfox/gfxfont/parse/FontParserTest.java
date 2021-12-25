@@ -1,4 +1,4 @@
-package com.github.thomasfox.gfxfont;
+package com.github.thomasfox.gfxfont.parse;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +8,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
+import com.github.thomasfox.gfxfont.Font;
+import com.github.thomasfox.gfxfont.Glyph;
+import com.github.thomasfox.gfxfont.parse.FontParser;
 
 public class FontParserTest
 {

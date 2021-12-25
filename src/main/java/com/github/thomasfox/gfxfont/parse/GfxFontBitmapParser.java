@@ -1,4 +1,4 @@
-package com.github.thomasfox.gfxfont;
+package com.github.thomasfox.gfxfont.parse;
 
 import java.util.ArrayList;
 import java.util.List;

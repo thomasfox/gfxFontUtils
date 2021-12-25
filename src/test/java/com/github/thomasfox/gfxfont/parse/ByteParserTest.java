@@ -1,8 +1,10 @@
-package com.github.thomasfox.gfxfont;
+package com.github.thomasfox.gfxfont.parse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+
+import com.github.thomasfox.gfxfont.parse.ByteParser;
 
 class ByteParserTest
 {

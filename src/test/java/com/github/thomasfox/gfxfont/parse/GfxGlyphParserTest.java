@@ -1,4 +1,4 @@
-package com.github.thomasfox.gfxfont;
+package com.github.thomasfox.gfxfont.parse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+
+import com.github.thomasfox.gfxfont.Glyph;
+import com.github.thomasfox.gfxfont.parse.GfxGlyphParser;
 
 class GfxGlyphParserTest
 {

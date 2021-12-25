@@ -3,7 +3,8 @@ package com.github.thomasfox.gfxfont;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+
+import com.github.thomasfox.gfxfont.parse.FontParser;
 
 public class FontLoader
 {

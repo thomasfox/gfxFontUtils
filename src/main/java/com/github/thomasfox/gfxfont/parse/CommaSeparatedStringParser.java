@@ -1,4 +1,4 @@
-package com.github.thomasfox.gfxfont;
+package com.github.thomasfox.gfxfont.parse;
 
 public class CommaSeparatedStringParser
 {

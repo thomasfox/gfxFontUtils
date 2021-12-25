@@ -1,6 +1,9 @@
-package com.github.thomasfox.gfxfont;
+package com.github.thomasfox.gfxfont.parse;
 
 import java.util.List;
+
+import com.github.thomasfox.gfxfont.Font;
+import com.github.thomasfox.gfxfont.Glyph;
 
 public class FontParser
 {
