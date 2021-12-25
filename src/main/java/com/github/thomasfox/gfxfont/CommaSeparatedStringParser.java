@@ -51,12 +51,7 @@ public class CommaSeparatedStringParser
 
   public Byte nextArgumentByteOrNull() {
     nextArgumentString();
-    if (currentArgument == null)
-    {
-      return null;
-    }
-    Integer intResult = Integer.decode(currentArgument.trim());
-    return (byte) (intResult & 0xFF);
+    return ByteParser.parseByte(currentArgument);
   }
 
   int getParsePosition()

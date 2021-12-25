@@ -6,8 +6,8 @@ public class FontLoaderMain
   {
     String filename = argv[0];
     FontLoader fontLoader = new FontLoader();
-    fontLoader.load(filename);
-    for(Glyph glyph : fontLoader.getGlyphs())
+    Font font = fontLoader.load(filename);
+    for (Glyph glyph : font.getGlyphList())
     {
       glyph.printBitmapToStdOut();
     }
