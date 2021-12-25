@@ -68,7 +68,7 @@ public class FontParserTest
       expectedFirstGlyph.height = 0;
       expectedFirstGlyph.xAdvance = 3;
       expectedFirstGlyph.xOffset = 0;
-      expectedFirstGlyph.yOffset = 1;
+      expectedFirstGlyph.yOffset = -4;
       expectedFirstGlyph.bitmap = new boolean[0][0];
 
       Glyph expectedSecondGlyph = new Glyph();
@@ -76,8 +76,8 @@ public class FontParserTest
       expectedSecondGlyph.width = 2;
       expectedSecondGlyph.height = 3;
       expectedSecondGlyph.xAdvance = 3;
-      expectedSecondGlyph.xOffset = 4;
-      expectedSecondGlyph.yOffset = -10;
+      expectedSecondGlyph.xOffset = 1;
+      expectedSecondGlyph.yOffset = -3;
       expectedSecondGlyph.bitmap = new boolean[][]{
           {false, true, false},
           {true, true, false}
@@ -92,7 +92,7 @@ public class FontParserTest
           expectedSecondGlyph);
       assertThat(result.getFirstChar()).isEqualTo((byte) 0x20);
       assertThat(result.getLastChar()).isEqualTo((byte) 0x21);
-      assertThat(result.getLineHeight()).isEqualTo(3);
+      assertThat(result.getLineHeight()).isEqualTo(4);
     }
   }
 }

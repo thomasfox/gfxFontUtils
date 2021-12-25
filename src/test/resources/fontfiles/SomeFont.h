@@ -3,9 +3,9 @@ const uint8_t SomeDummyFontBitmaps[] PROGMEM = {
     0xCC, 0xDD, 0xEE, 0xFF};
 
 const GFXglyph SomeDummyFontGlyphs[] PROGMEM = {
-    {0, 0, 0, 3, 0, 1},      // 0x00 ' '  To test brackets in comments: '{'
-    {0, 2, 3, 3, 4, -10}};  // 0x21 '!'
+    {0, 0, 0, 3, 0, -4},      // 0x00 ' '  To test brackets in comments: '{'
+    {0, 2, 3, 3, 1, -3}};    // 0x21 '!'
 
 const GFXfont SomeDummyFont PROGMEM = {(uint8_t *)SomeDummyFontBitmaps,
                                        (GFXglyph *)SomeDummyFontGlyphs, 0x20,
-                                       0x21, 3};
+                                       0x21, 4};

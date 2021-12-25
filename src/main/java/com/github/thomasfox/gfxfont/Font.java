@@ -70,6 +70,23 @@ public class Font
     return glyphList.get(glyphKey - firstChar);
   }
 
+  byte[] getBytes(String toConvert)
+  {
+    return toConvert.getBytes(StandardCharsets.ISO_8859_1);
+  }
+
+  int getPixelWidth(String toPrint)
+  {
+    int width = 0;
+    byte[] isoBytesForString = getBytes(toPrint);
+    for (byte b : isoBytesForString)
+    {
+      Glyph glyph = getGlyph(b);
+      width += glyph.xAdvance;
+    }
+    return width;
+  }
+
   /**
    * Prints a string into a bitmap using the glyph bitmaps in the font.
    * Currently fails if the passed string contains characters unknown to the font.
@@ -80,16 +97,13 @@ public class Font
    */
   public boolean[][] asBitmap(String toPrint)
   {
-    int length = 0;
-    byte[] isoBytesForString = toPrint.getBytes(StandardCharsets.ISO_8859_1);
-    for (byte b : isoBytesForString)
-    {
-      Glyph glyph = getGlyph(b);
-      length += glyph.xAdvance;
-    }
-    boolean[][] result = new boolean[length][lineHeight];
+    int width = getPixelWidth(toPrint);
+    boolean[][] result = new boolean[width][lineHeight];
 
-    int charOffset = 0;
+    int baseline = getBaseline();
+
+    int charXOffset = 0;
+    byte[] isoBytesForString = getBytes(toPrint);
     for (byte b : isoBytesForString)
     {
       Glyph glyph = getGlyph(b);
@@ -99,13 +113,37 @@ public class Font
         int y = 0;
         for (boolean pixel : xBitmap)
         {
-          result[x + charOffset][y] = pixel;
+          result[x + charXOffset + glyph.xOffset][y + baseline + glyph.yOffset] = pixel;
           y++;
         }
         x++;
       }
-      charOffset += glyph.xAdvance;
+      charXOffset += glyph.xAdvance;
     }
     return result;
+  }
+
+  /**
+   * In gfxfonts, the pixel coordinates are given with respect to a virtual baseline
+   * (the lowest pixel of a character without descender like e.g. "a").
+   * But the font contains no number to tell how much the baseline must be below the uppermost line
+   * in the display so that all characters in the font fit in the display area.
+   *
+   * This method determines the smallest possible value for the baseline y so that all characters
+   * in the font have non-negative y coordinates.
+   *
+   * @return the smallest possible y baseline fitting for all characters in this font.
+   */
+  public int getBaseline()
+  {
+    int baseline = 0;
+    for (Glyph glyph : glyphList)
+    {
+      if (-glyph.yOffset > baseline)
+      {
+        baseline = -glyph.yOffset;
+      }
+    }
+    return baseline;
   }
 }

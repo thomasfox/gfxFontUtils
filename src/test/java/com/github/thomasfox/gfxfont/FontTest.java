@@ -2,6 +2,8 @@ package com.github.thomasfox.gfxfont;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.nio.charset.StandardCharsets;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +27,7 @@ class FontTest
     expected.height = 0;
     expected.xAdvance = 3;
     expected.xOffset = 0;
-    expected.yOffset = 1;
+    expected.yOffset = -4;
     expected.bitmap = new boolean[0][0];
 
     // act & assert
@@ -51,14 +53,33 @@ class FontTest
   }
 
   @Test
+  void getBytes()
+  {
+    String testString = "dkhfX%!0§ÖäÜ";
+    assertThat(font.getBytes(testString)).isEqualTo(testString.getBytes(StandardCharsets.ISO_8859_1));
+  }
+
+  @Test
+  void getPixelWidth()
+  {
+    assertThat(font.getPixelWidth(" !  !")).isEqualTo(15);
+  }
+
+  @Test
   void asBitmap()
   {
     assertThat(font.asBitmap(" !")).isEqualTo(new boolean[][] {
-        {false, false, false},
-        {false, false, false},
-        {false, false, false},
-        {false, true, false},
-        {true, true, false},
-        {false, false, false}});
+        {false, false, false, false},
+        {false, false, false, false},
+        {false, false, false, false},
+        {false, false, false, false},
+        {false, false, true, false},
+        {false, true, true, false}});
+  }
+
+  @Test
+  void getBaseline()
+  {
+    assertThat(font.getBaseline()).isEqualTo(4);
   }
 }
