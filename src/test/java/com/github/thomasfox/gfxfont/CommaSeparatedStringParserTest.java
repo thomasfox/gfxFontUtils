@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class CommaSeparatedStringParserTest
 {
-  public static final String INT_ARGUMENT_TEST_STRING = "0,2, 11, 11, 4, -10";
+  public static final String INT_ARGUMENT_TEST_STRING = "0,2,NaN, 11, 4, -10";
 
   public static final String BYTE_ARGUMENT_TEST_STRING = "0x01, 0xFF";
 
@@ -112,6 +112,20 @@ class CommaSeparatedStringParserTest
         "Past end in String " + INT_ARGUMENT_TEST_STRING);
 
     assertThat(commaSeparatedStringParser.getCurrentArgument()).isNull();
+  }
+
+  @Test
+  void nextArgumentIntOrNull_noNumber()
+  {
+    // arrange
+    commaSeparatedStringParser = new CommaSeparatedStringParser(INT_ARGUMENT_TEST_STRING);
+    commaSeparatedStringParser.setParsePosition(4);
+
+    // act & assert
+    assertThatThrownBy(() -> commaSeparatedStringParser.nextArgumentIntNotNull()).hasMessage(
+        "Cannot parse Argument NaN within String " + INT_ARGUMENT_TEST_STRING);
+
+    assertThat(commaSeparatedStringParser.getCurrentArgument()).isEqualTo("NaN");
   }
 
   @Test
