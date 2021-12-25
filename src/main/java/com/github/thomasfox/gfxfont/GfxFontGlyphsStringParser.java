@@ -9,8 +9,6 @@ class GfxFontGlyphsStringParser
 
   private int fontGlyphStringParsePosition = 0;
   private String currentGlyphString = null;
-  private int withinGlyphParsePosition;
-  private String withinGlyphCurrentArgument;
 
   public GfxFontGlyphsStringParser(String gfxFontGlyphsString)
   {
@@ -74,46 +72,17 @@ class GfxFontGlyphsStringParser
   Glyph parseGlyphString()
   {
     Glyph result = new Glyph();
-    withinGlyphParsePosition = 0;
-    result.bitmapOffset = nextArgumentIntInGlyph();
-    result.width = nextArgumentIntInGlyph();
-    result.height = nextArgumentIntInGlyph();
-    result.xAdvance = nextArgumentIntInGlyph();
-    result.xOffset = nextArgumentIntInGlyph();
-    result.yOffset = nextArgumentIntInGlyph();
+    CommaSeparatedStringParser withingGlyphStringParser = new CommaSeparatedStringParser(currentGlyphString);
+    result.bitmapOffset = withingGlyphStringParser.nextArgumentInt();
+    result.width = withingGlyphStringParser.nextArgumentInt();
+    result.height = withingGlyphStringParser.nextArgumentInt();
+    result.xAdvance = withingGlyphStringParser.nextArgumentInt();
+    result.xOffset = withingGlyphStringParser.nextArgumentInt();
+    result.yOffset = withingGlyphStringParser.nextArgumentInt();
 
     return result;
   }
 
-  void nextArgumentStringInGlyph()
-  {
-    int nextCommaPosition = currentGlyphString.indexOf(',', withinGlyphParsePosition);
-    if (nextCommaPosition == -1)
-    {
-      if (withinGlyphParsePosition >= currentGlyphString.length())
-      {
-        throw new RuntimeException("past end in current glyph " + currentGlyphString);
-      }
-      nextCommaPosition = currentGlyphString.length();
-    }
-    withinGlyphCurrentArgument
-        = currentGlyphString.substring(withinGlyphParsePosition, nextCommaPosition);
-    withinGlyphParsePosition = nextCommaPosition + 1;
-  }
-
-  Integer nextArgumentIntInGlyph()
-  {
-    nextArgumentStringInGlyph();
-    try
-    {
-      return Integer.parseInt(withinGlyphCurrentArgument.trim());
-    }
-    catch(NumberFormatException e)
-    {
-      throw new RuntimeException("Cannot parse Argument " + withinGlyphCurrentArgument
-          + " within glyph String " + currentGlyphString);
-    }
-  }
 
   public String getGfxFontGlyphsString()
   {
@@ -138,20 +107,5 @@ class GfxFontGlyphsStringParser
   void setCurrentGlyphString(String currentGlyphString)
   {
     this.currentGlyphString = currentGlyphString;
-  }
-
-  int getWithinGlyphParsePosition()
-  {
-    return withinGlyphParsePosition;
-  }
-
-  void setWithinGlyphParsePosition(int withinGlyphParsePosition)
-  {
-    this.withinGlyphParsePosition = withinGlyphParsePosition;
-  }
-
-  public String getWithinGlyphCurrentArgument()
-  {
-    return withinGlyphCurrentArgument;
   }
 }

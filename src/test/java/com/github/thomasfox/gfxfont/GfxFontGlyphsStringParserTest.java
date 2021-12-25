@@ -1,7 +1,6 @@
 package com.github.thomasfox.gfxfont;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
 
@@ -90,88 +89,11 @@ class GfxFontGlyphsStringParserTest
   }
 
   @Test
-  void nextArgumentStringInGlyph()
-  {
-    // arrange
-    gfxGlyphParser = new GfxFontGlyphsStringParser("");
-    gfxGlyphParser.setCurrentGlyphString("0,2, 11, 11, 4, -10");
-    gfxGlyphParser.setWithinGlyphParsePosition(0);
-
-    // act
-    gfxGlyphParser.nextArgumentStringInGlyph();
-
-    // assert
-    assertThat(gfxGlyphParser.getWithinGlyphCurrentArgument())
-        .isEqualTo("0");
-    assertThat(gfxGlyphParser.getWithinGlyphParsePosition()).isEqualTo(2);
-  }
-
-  @Test
-  void nextArgumentStringInGlyph_followUp()
-  {
-    // arrange
-    gfxGlyphParser = new GfxFontGlyphsStringParser("");
-    gfxGlyphParser.setCurrentGlyphString("0, 2, 11, 11, 4, -10");
-    gfxGlyphParser.setWithinGlyphParsePosition(2);
-
-    // act
-    gfxGlyphParser.nextArgumentStringInGlyph();
-
-    // assert
-    assertThat(gfxGlyphParser.getWithinGlyphCurrentArgument())
-        .isEqualTo(" 2");
-    assertThat(gfxGlyphParser.getWithinGlyphParsePosition()).isEqualTo(5);
-  }
-
-  @Test
-  void nextArgumentStringInGlyph_last()
-  {
-    // arrange
-    gfxGlyphParser = new GfxFontGlyphsStringParser("");
-    gfxGlyphParser.setCurrentGlyphString("0, 2, 11, 11, 4, -10");
-    gfxGlyphParser.setWithinGlyphParsePosition(16);
-
-    // act
-    gfxGlyphParser.nextArgumentStringInGlyph();
-
-    // assert
-    assertThat(gfxGlyphParser.getWithinGlyphCurrentArgument())
-        .isEqualTo(" -10");
-    assertThat(gfxGlyphParser.getWithinGlyphParsePosition()).isEqualTo(21);
-  }
-
-  @Test
-  void nextArgumentStringInGlyph_pastLast()
-  {
-    // arrange
-    gfxGlyphParser = new GfxFontGlyphsStringParser("");
-    gfxGlyphParser.setCurrentGlyphString("0, 2, 11, 11, 4, -10");
-    gfxGlyphParser.setWithinGlyphParsePosition(21);
-
-    // act & assert
-    assertThatThrownBy(() -> gfxGlyphParser.nextArgumentStringInGlyph()).hasMessage(
-        "past end in current glyph 0, 2, 11, 11, 4, -10");
-  }
-
-  @Test
-  void nextArgumentIntInGlyph()
-  {
-    // arrange
-    gfxGlyphParser = new GfxFontGlyphsStringParser("");
-    gfxGlyphParser.setCurrentGlyphString("0, 2, 11, 11, 4, -10");
-    gfxGlyphParser.setWithinGlyphParsePosition(16);
-
-    // act & assert
-    assertThat(gfxGlyphParser.nextArgumentIntInGlyph()).isEqualTo(-10);
-  }
-
-  @Test
   void parseGlyphString()
   {
     // arrange
     gfxGlyphParser = new GfxFontGlyphsStringParser("");
     gfxGlyphParser.setCurrentGlyphString("0, 2, 10, 11, 4, -10");
-    gfxGlyphParser.setWithinGlyphParsePosition(16); // off value to check it has no effect
 
     // act
     Glyph result = gfxGlyphParser.parseGlyphString();
