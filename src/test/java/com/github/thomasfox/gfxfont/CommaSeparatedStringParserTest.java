@@ -7,14 +7,17 @@ import org.junit.jupiter.api.Test;
 
 class CommaSeparatedStringParserTest
 {
-  public static final String TO_PARSE = "0,2, 11, 11, 4, -10";
+  public static final String INT_ARGUMENT_TEST_STRING = "0,2, 11, 11, 4, -10";
+
+  public static final String BYTE_ARGUMENT_TEST_STRING = "0x01, 0xFF";
+
   private CommaSeparatedStringParser commaSeparatedStringParser;
 
   @Test
   void nextArgumentString()
   {
     // arrange
-    commaSeparatedStringParser = new CommaSeparatedStringParser(TO_PARSE);
+    commaSeparatedStringParser = new CommaSeparatedStringParser(INT_ARGUMENT_TEST_STRING);
 
     // act
     String result = commaSeparatedStringParser.nextArgumentString();
@@ -29,7 +32,7 @@ class CommaSeparatedStringParserTest
   void nextArgumentString_followUp()
   {
     // arrange
-    commaSeparatedStringParser = new CommaSeparatedStringParser(TO_PARSE);
+    commaSeparatedStringParser = new CommaSeparatedStringParser(INT_ARGUMENT_TEST_STRING);
     commaSeparatedStringParser.setParsePosition(2);
 
     // act
@@ -44,7 +47,7 @@ class CommaSeparatedStringParserTest
   void nextArgumentString_followUp2()
   {
     // arrange
-    commaSeparatedStringParser = new CommaSeparatedStringParser(TO_PARSE);
+    commaSeparatedStringParser = new CommaSeparatedStringParser(INT_ARGUMENT_TEST_STRING);
     commaSeparatedStringParser.setParsePosition(12);
 
     // act
@@ -59,7 +62,7 @@ class CommaSeparatedStringParserTest
   void nextArgumentString_last()
   {
     // arrange
-    commaSeparatedStringParser = new CommaSeparatedStringParser(TO_PARSE);
+    commaSeparatedStringParser = new CommaSeparatedStringParser(INT_ARGUMENT_TEST_STRING);
     commaSeparatedStringParser.setParsePosition(15);
 
     // act
@@ -74,22 +77,86 @@ class CommaSeparatedStringParserTest
   void nextArgumentString_pastLast()
   {
     // arrange
-    commaSeparatedStringParser = new CommaSeparatedStringParser(TO_PARSE);
+    commaSeparatedStringParser = new CommaSeparatedStringParser(INT_ARGUMENT_TEST_STRING);
     commaSeparatedStringParser.setParsePosition(20);
 
-    // act & assert
-    assertThatThrownBy(() -> commaSeparatedStringParser.nextArgumentString()).hasMessage(
-        "past end in current glyph " + TO_PARSE);
+    // act
+    String result = commaSeparatedStringParser.nextArgumentString();
+
+    // assert
+    assertThat(result).isNull();
+    assertThat(commaSeparatedStringParser.getCurrentArgument()).isNull();
+    assertThat(commaSeparatedStringParser.getParsePosition()).isEqualTo(20);
   }
 
   @Test
-  void nextArgumentInt()
+  void nextArgumentIntNotNull()
   {
     // arrange
-    commaSeparatedStringParser = new CommaSeparatedStringParser(TO_PARSE);
+    commaSeparatedStringParser = new CommaSeparatedStringParser(INT_ARGUMENT_TEST_STRING);
     commaSeparatedStringParser.setParsePosition(15);
 
     // act & assert
-    assertThat(commaSeparatedStringParser.nextArgumentInt()).isEqualTo(-10);
+    assertThat(commaSeparatedStringParser.nextArgumentIntNotNull()).isEqualTo(-10);
   }
+
+  @Test
+  void nextArgumentIntOrNull_pastLast()
+  {
+    // arrange
+    commaSeparatedStringParser = new CommaSeparatedStringParser(INT_ARGUMENT_TEST_STRING);
+    commaSeparatedStringParser.setParsePosition(20);
+
+    // act & assert
+    assertThatThrownBy(() -> commaSeparatedStringParser.nextArgumentIntNotNull()).hasMessage(
+        "Past end in String " + INT_ARGUMENT_TEST_STRING);
+
+    assertThat(commaSeparatedStringParser.getCurrentArgument()).isNull();
+  }
+
+  @Test
+  void nextArgumentByteOrNull()
+  {
+    // arrange
+    commaSeparatedStringParser = new CommaSeparatedStringParser(BYTE_ARGUMENT_TEST_STRING);
+
+    // act
+    Byte result = commaSeparatedStringParser.nextArgumentByteOrNull();
+
+    // assert
+    assertThat(result).isEqualTo((byte) 0x01);
+    assertThat(commaSeparatedStringParser.getParsePosition()).isEqualTo(5);
+  }
+
+  @Test
+  void nextArgumentByteOrNull_last()
+  {
+    // arrange
+    commaSeparatedStringParser = new CommaSeparatedStringParser(BYTE_ARGUMENT_TEST_STRING);
+    commaSeparatedStringParser.setParsePosition(5);
+
+    // act
+    Byte result = commaSeparatedStringParser.nextArgumentByteOrNull();
+
+    // assert
+    assertThat(result).isEqualTo((byte) 0xFF);
+    assertThat(commaSeparatedStringParser.getParsePosition()).isEqualTo(11);
+  }
+
+  @Test
+  void nextArgumentByteOrNull_pastLast()
+  {
+    // arrange
+    commaSeparatedStringParser = new CommaSeparatedStringParser(BYTE_ARGUMENT_TEST_STRING);
+    commaSeparatedStringParser.setParsePosition(11);
+
+    // act
+    Byte result = commaSeparatedStringParser.nextArgumentByteOrNull();
+
+    // assert
+    assertThat(result).isNull();
+    assertThat(commaSeparatedStringParser.getCurrentArgument()).isNull();
+    assertThat(commaSeparatedStringParser.getParsePosition()).isEqualTo(11);
+  }
+
 }

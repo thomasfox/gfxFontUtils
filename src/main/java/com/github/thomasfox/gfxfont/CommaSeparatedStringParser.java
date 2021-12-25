@@ -2,7 +2,7 @@ package com.github.thomasfox.gfxfont;
 
 public class CommaSeparatedStringParser
 {
-  private String toParse;
+  private final String toParse;
 
   private int parsePosition;
 
@@ -20,7 +20,8 @@ public class CommaSeparatedStringParser
     {
       if (parsePosition >= toParse.length())
       {
-        throw new RuntimeException("past end in current glyph " + toParse);
+        currentArgument = null;
+        return null;
       }
       nextCommaPosition = toParse.length();
     }
@@ -30,9 +31,13 @@ public class CommaSeparatedStringParser
     return currentArgument;
   }
 
-  public Integer nextArgumentInt()
+  public Integer nextArgumentIntNotNull()
   {
     nextArgumentString();
+    if (currentArgument == null)
+    {
+      throw new RuntimeException("Past end in String " + toParse);
+    }
     try
     {
       return Integer.parseInt(currentArgument.trim());
@@ -42,6 +47,16 @@ public class CommaSeparatedStringParser
       throw new RuntimeException("Cannot parse Argument " + currentArgument
           + " within String " + toParse);
     }
+  }
+
+  public Byte nextArgumentByteOrNull() {
+    nextArgumentString();
+    if (currentArgument == null)
+    {
+      return null;
+    }
+    Integer intResult = Integer.decode(currentArgument.trim());
+    return (byte) (intResult & 0xFF);
   }
 
   int getParsePosition()

@@ -73,12 +73,12 @@ class GfxFontGlyphsStringParser
   {
     Glyph result = new Glyph();
     CommaSeparatedStringParser withingGlyphStringParser = new CommaSeparatedStringParser(currentGlyphString);
-    result.bitmapOffset = withingGlyphStringParser.nextArgumentInt();
-    result.width = withingGlyphStringParser.nextArgumentInt();
-    result.height = withingGlyphStringParser.nextArgumentInt();
-    result.xAdvance = withingGlyphStringParser.nextArgumentInt();
-    result.xOffset = withingGlyphStringParser.nextArgumentInt();
-    result.yOffset = withingGlyphStringParser.nextArgumentInt();
+    result.bitmapOffset = withingGlyphStringParser.nextArgumentIntNotNull();
+    result.width = withingGlyphStringParser.nextArgumentIntNotNull();
+    result.height = withingGlyphStringParser.nextArgumentIntNotNull();
+    result.xAdvance = withingGlyphStringParser.nextArgumentIntNotNull();
+    result.xOffset = withingGlyphStringParser.nextArgumentIntNotNull();
+    result.yOffset = withingGlyphStringParser.nextArgumentIntNotNull();
 
     return result;
   }

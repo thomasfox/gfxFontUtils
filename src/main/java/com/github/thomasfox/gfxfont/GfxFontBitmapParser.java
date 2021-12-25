@@ -5,20 +5,18 @@ import java.util.List;
 
 class GfxFontBitmapParser
 {
-  private String gfxFontBitmapsString;
-
-  private int fontBitmapsStringParsePosition = 0;
+  private CommaSeparatedStringParser bitmapsStringParser;
 
   public GfxFontBitmapParser(String gfxFontBitmapsString)
   {
-    this.gfxFontBitmapsString = gfxFontBitmapsString;
+    bitmapsStringParser = new CommaSeparatedStringParser(gfxFontBitmapsString);
   }
 
   byte[] parse()
   {
     List<Byte> resultList = new ArrayList<>();
     Byte next;
-    while ((next = nextArgumentInFontBitmapsString()) != null)
+    while ((next = bitmapsStringParser.nextArgumentByteOrNull()) != null)
     {
       resultList.add(next);
     }
@@ -28,34 +26,5 @@ class GfxFontBitmapParser
       result[i] = resultList.get(i);
     }
     return result;
-  }
-
-  Byte nextArgumentInFontBitmapsString()
-  {
-    int nextCommaPosition = gfxFontBitmapsString.indexOf(',', fontBitmapsStringParsePosition);
-    if (nextCommaPosition == -1)
-    {
-      if (fontBitmapsStringParsePosition >= gfxFontBitmapsString.length())
-      {
-        return null;
-      }
-      nextCommaPosition = gfxFontBitmapsString.length();
-    }
-    String argumentString = gfxFontBitmapsString.substring(
-        fontBitmapsStringParsePosition,
-        nextCommaPosition);
-    Byte result = (byte) (Integer.decode(argumentString.trim()) & 0xFF);
-    fontBitmapsStringParsePosition = nextCommaPosition + 1;
-    return result;
-  }
-
-  public int getFontBitmapsStringParsePosition()
-  {
-    return fontBitmapsStringParsePosition;
-  }
-
-  public void setFontBitmapsStringParsePosition(int fontBitmapsStringParsePosition)
-  {
-    this.fontBitmapsStringParsePosition = fontBitmapsStringParsePosition;
   }
 }
