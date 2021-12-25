@@ -9,7 +9,7 @@ public class FontLoaderMain
     Font font = fontLoader.load(filename);
     for (Glyph glyph : font.getGlyphList())
     {
-      glyph.printBitmapToStdOut();
+      BitmapPrinter.printBitmap(glyph.bitmap, System.out);
     }
   }
 }

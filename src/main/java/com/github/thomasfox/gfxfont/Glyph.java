@@ -13,26 +13,6 @@ public class Glyph
   public int yOffset;      // Y distance from cursor position to upper left corner
   boolean[][] bitmap;      // bitmap for the glyph, first index is X, second index is Y
 
-  public void printBitmapToStdOut()
-  {
-    for (int y = 0; y < height; y++)
-    {
-      for (int x = 0; x < width; x++)
-      {
-        if (bitmap[x][y])
-        {
-          System.out.print('X');
-        }
-        else
-        {
-          System.out.print('.');
-        }
-      }
-      System.out.println();
-    }
-    System.out.println();
-  }
-
   @Override
   public boolean equals(Object o)
   {
