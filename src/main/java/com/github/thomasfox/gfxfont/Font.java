@@ -1,5 +1,6 @@
 package com.github.thomasfox.gfxfont;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class Font
@@ -58,5 +59,53 @@ public class Font
   public void setLineHeight(int lineHeight)
   {
     this.lineHeight = lineHeight;
+  }
+
+  public Glyph getGlyph(byte glyphKey)
+  {
+    if (glyphKey < firstChar || glyphKey > lastChar)
+    {
+      return null;
+    }
+    return glyphList.get(glyphKey - firstChar);
+  }
+
+  /**
+   * Prints a string into a bitmap using the glyph bitmaps in the font.
+   * Currently fails if the passed string contains characters unknown to the font.
+   *
+   * @param toPrint the string to print as bitmap, not null
+   *
+   * @return the bitmap for the String.
+   */
+  public boolean[][] asBitmap(String toPrint)
+  {
+    int length = 0;
+    byte[] isoBytesForString = toPrint.getBytes(StandardCharsets.ISO_8859_1);
+    for (byte b : isoBytesForString)
+    {
+      Glyph glyph = getGlyph(b);
+      length += glyph.xAdvance;
+    }
+    boolean[][] result = new boolean[length][lineHeight];
+
+    int charOffset = 0;
+    for (byte b : isoBytesForString)
+    {
+      Glyph glyph = getGlyph(b);
+      int x = 0;
+      for (boolean[] xBitmap : glyph.bitmap)
+      {
+        int y = 0;
+        for (boolean pixel : xBitmap)
+        {
+          result[x + charOffset][y] = pixel;
+          y++;
+        }
+        x++;
+      }
+      charOffset += glyph.xAdvance;
+    }
+    return result;
   }
 }
