@@ -52,4 +52,14 @@ class BitmapClipperTest
         {false, true}}));
   }
 
+  @Test
+  void addWhitespaceForHeightMultipleOfEight()
+  {
+    assertThat(bitmapClipper.addWhitespaceForHeightMultipleOfEight()).isEqualTo(new Bitmap(new boolean[][] {
+        {false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false},
+        {false, false, false, true, false, false, false, false},
+        {false, false, false, false, true, false, false, false},
+        {false, false, false, false, false, false, false, false}}));
+  }
 }

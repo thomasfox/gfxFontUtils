@@ -26,6 +26,25 @@ public class BitmapClipper
     return result;
   }
 
+  public Bitmap addWhitespaceForHeightMultipleOfEight()
+  {
+    int heightModulus = originalBitmap.getHeight() % 8;
+    if (heightModulus == 0)
+    {
+      return originalBitmap;
+    }
+    int newHeight = (originalBitmap.getHeight() / 8) * 8 + 8;
+    Bitmap result = new Bitmap(originalBitmap.getWidth(), newHeight);
+    for (int x = 0; x < originalBitmap.getWidth(); x++)
+    {
+      for (int y = 0; y < originalBitmap.getHeight(); y++)
+      {
+        result.setPixel(x, y , originalBitmap.getPixel(x, y));
+      }
+    }
+    return result;
+  }
+
   int getXStart()
   {
     int xStart = 0;
