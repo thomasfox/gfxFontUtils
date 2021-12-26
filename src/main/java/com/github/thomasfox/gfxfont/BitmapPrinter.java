@@ -70,6 +70,45 @@ public class BitmapPrinter
     out.print('\n');
   }
 
+  /**
+   * Prints the bitmap in a format which is convenient for handling
+   * in Electronic Assembly's DOG Display series.
+   *
+   * The DOG format is such that each x row contains 8 vertical pixels.
+   * LSB of each byte is the uppermost pixel.
+   * This method prints the x rows as separate arrays.
+   *
+   * This method only accepts bitmaps which have a height which is a multiple of eight.
+   */
+  public void printBitmapAsHexInDogFormat(PrintStream out)
+  {
+    if ((bitmap.getHeight() % 8) != 0)
+    {
+      throw new IllegalStateException("Height must be a multiple of eight");
+    }
+
+    firstPrintedHex = true;
+    byteCountInLine = 0;
+    for (int yByte = 0; yByte < bitmap.getHeight() / 8; yByte++)
+    {
+      for (int x = 0; x < bitmap.getWidth(); x++)
+      {
+        byte mask = 0x01;
+        byte currentByte = 0;
+        for (int yBit = 0; yBit < 8; yBit++)
+        {
+          if (bitmap.getPixel(x, yByte * 8 + yBit))
+          {
+            currentByte += mask;
+          }
+          mask <<= 1;
+        }
+        printCommaAndLineBreakIfNecessary(out);
+        out.print(ByteParser.toHexString(currentByte));
+      }
+    }
+  }
+
   private void printCommaAndLineBreakIfNecessary(PrintStream out)
   {
     if (!firstPrintedHex)

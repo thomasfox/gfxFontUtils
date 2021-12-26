@@ -45,6 +45,13 @@ public class PrintUsingFont
     System.out.println("width: " + bitmap.getWidth() + "px, height: " + bitmap.getHeight() + " px\n");
     BitmapPrinter bitmapPrinter = new BitmapPrinter(bitmap);
     bitmapPrinter.printBitmap(System.out);
+
+    System.out.println("\n## GFX-Style Hex:\n");
     bitmapPrinter.printBitmapAsHex(System.out);
+
+    System.out.println("\n## DOG-Style Hex:\n");
+    bitmapPrinter = new BitmapPrinter(new BitmapClipper(bitmap).addWhitespaceForHeightMultipleOfEight());
+    bitmapPrinter.printBitmapAsHexInDogFormat(System.out);
+    System.out.println();
   }
 }
