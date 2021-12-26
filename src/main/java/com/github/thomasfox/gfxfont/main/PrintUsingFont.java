@@ -18,6 +18,9 @@ public class PrintUsingFont
     FontLoader fontLoader = new FontLoader();
     Font font = fontLoader.load(filename);
     String toPrint = argv[1];
-    BitmapPrinter.printBitmap(new BitmapClipper(font.asBitmap(toPrint)).clipWhitespace(), System.out);
+    boolean[][] bitmap = new BitmapClipper(font.asBitmap(toPrint)).clipWhitespace();
+    BitmapPrinter bitmapPrinter = new BitmapPrinter(bitmap);
+    bitmapPrinter.printBitmap(System.out);
+    bitmapPrinter.printBitmapAsHex(System.out);
   }
 }

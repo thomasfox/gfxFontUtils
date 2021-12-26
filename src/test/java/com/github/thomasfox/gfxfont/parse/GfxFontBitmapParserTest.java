@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.thomasfox.gfxfont.parse.GfxFontBitmapParser;
-
 class GfxFontBitmapParserTest
 {
   public static final String STANDARD_BITMAP_TEST_STRING = "0x01, 0xFF";

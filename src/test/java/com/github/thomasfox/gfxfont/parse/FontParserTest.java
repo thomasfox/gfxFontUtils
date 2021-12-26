@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 
 import com.github.thomasfox.gfxfont.Font;
 import com.github.thomasfox.gfxfont.Glyph;
-import com.github.thomasfox.gfxfont.parse.FontParser;
 
 public class FontParserTest
 {

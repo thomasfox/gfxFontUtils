@@ -19,7 +19,7 @@ class BitmapPrinterTest
     PrintStream printStream = new PrintStream(byteArrayOutputStream);
 
     // act
-    BitmapPrinter.printBitmap(toPrint, printStream);
+    new BitmapPrinter(toPrint).printBitmap(printStream);
 
     // assert
     String result = byteArrayOutputStream.toString(StandardCharsets.ISO_8859_1);
@@ -29,4 +29,55 @@ class BitmapPrinterTest
         "..\n" +
         "\n");
   }
+
+  @Test
+  void printBitmapAsHex_danglingBitAtEnd()
+  {
+    // arrange
+    boolean[][] toPrint = {
+        {true, false, false, false, false, false, false},
+        {true, true, false, false, false, false, false},
+        {true, false, false, false, false, false, false},
+        {true, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false},
+        {true, false, false, false, false, false, true}};
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    PrintStream printStream = new PrintStream(byteArrayOutputStream);
+
+    // act
+    new BitmapPrinter(toPrint).printBitmapAsHex(printStream);
+
+    // assert
+    String result = byteArrayOutputStream.toString(StandardCharsets.ISO_8859_1);
+    assertThat(result).isEqualTo(
+        "0xF2, 0x80, 0x00, 0x00, 0x00, 0x00, 0x80\n");
+  }
+
+  @Test
+  void printBitmapAsHex_withLineEnd()
+  {
+    // arrange
+    boolean[][] toPrint = {
+        {true, true, false, false, false, false, false, false, false, false, true},
+        {true, false, false, false, false, false, false, false, false, false, false},
+        {true, false, false, false, false, false, false, false, false, false, false},
+        {true, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false},
+        {true, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, true}};
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    PrintStream printStream = new PrintStream(byteArrayOutputStream);
+
+    // act
+    new BitmapPrinter(toPrint).printBitmapAsHex(printStream);
+
+    // assert
+    String result = byteArrayOutputStream.toString(StandardCharsets.ISO_8859_1);
+    assertThat(result).isEqualTo(
+        "0xF2, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \n" +
+        "0x81\n");
+  }
+
 }

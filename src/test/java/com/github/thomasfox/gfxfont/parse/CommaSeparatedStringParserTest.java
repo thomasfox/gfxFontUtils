@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.thomasfox.gfxfont.parse.CommaSeparatedStringParser;
-
 class CommaSeparatedStringParserTest
 {
   public static final String INT_ARGUMENT_TEST_STRING = "0,2,NaN, 11, 4, -10";

@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import com.github.thomasfox.gfxfont.Glyph;
-import com.github.thomasfox.gfxfont.parse.GfxGlyphParser;
 
 class GfxGlyphParserTest
 {
