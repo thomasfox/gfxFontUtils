@@ -23,12 +23,10 @@ class FontTest
     // arrange
     Glyph expected = new Glyph();
     expected.bitmapOffset = 0;
-    expected.width = 0;
-    expected.height = 0;
     expected.xAdvance = 3;
     expected.xOffset = 0;
     expected.yOffset = -4;
-    expected.bitmap = new boolean[0][0];
+    expected.bitmap = new Bitmap(new boolean[0][0]);
 
     // act & assert
     assertThat(font.getGlyph((byte) 0x20)).isEqualTo(expected);
@@ -68,13 +66,13 @@ class FontTest
   @Test
   void asBitmap()
   {
-    assertThat(font.asBitmap(" !")).isEqualTo(new boolean[][] {
+    assertThat(font.asBitmap(" !")).isEqualTo(new Bitmap(new boolean[][] {
         {false, false, false, false},
         {false, false, false, false},
         {false, false, false, false},
         {false, false, false, false},
         {false, false, true, false},
-        {false, true, true, false}});
+        {false, true, true, false}}));
   }
 
   @Test

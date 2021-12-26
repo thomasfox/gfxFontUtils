@@ -6,31 +6,24 @@ import com.github.thomasfox.gfxfont.parse.ByteParser;
 
 public class BitmapPrinter
 {
-  private boolean[][] bitmap;
-
-  private int width;
-
-  private int height;
+  private Bitmap bitmap;
 
   private int byteCountInLine;
 
   private boolean firstPrintedHex;
 
-
-  public BitmapPrinter(boolean[][] bitmap)
+  public BitmapPrinter(Bitmap bitmap)
   {
     this.bitmap = bitmap;
-    width = bitmap.length;
-    height = bitmap.length == 0 ? 0 : bitmap[0].length;
   }
 
   public void printBitmap(PrintStream out)
   {
-    for (int y = 0; y < height; y++)
+    for (int y = 0; y < bitmap.getHeight(); y++)
     {
-      for (int x = 0; x < width; x++)
+      for (int x = 0; x < bitmap.getWidth(); x++)
       {
-        if (bitmap[x][y])
+        if (bitmap.getPixel(x, y))
         {
           out.print('X');
         }
@@ -50,11 +43,11 @@ public class BitmapPrinter
     byte currentByte = 0x00;
     byteCountInLine = 0;
     firstPrintedHex = true;
-    for (int y = 0; y < height; y++)
+    for (int y = 0; y < bitmap.getHeight(); y++)
     {
-      for (int x = 0; x < width; x++)
+      for (int x = 0; x < bitmap.getWidth(); x++)
       {
-        if (bitmap[x][y])
+        if (bitmap.getPixel(x, y))
         {
           currentByte |= mask;
         }

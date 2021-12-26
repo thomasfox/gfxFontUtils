@@ -12,24 +12,12 @@ class BitmapClipperTest
   @BeforeEach
   void createBitmapClipper()
   {
-    bitmapClipper = new BitmapClipper(new boolean[][] {
+    bitmapClipper = new BitmapClipper(new Bitmap( new boolean[][] {
         {false, false, false, false, false, false, false},
         {false, false, false, false, false, false, false},
         {false, false, false, true, false, false, false},
         {false, false, false, false, true, false, false},
-        {false, false, false, false, false, false, false}});
-  }
-
-  @Test
-  void getWidth()
-  {
-    assertThat(bitmapClipper.getWidth()).isEqualTo(5);
-  }
-
-  @Test
-  void getHeight()
-  {
-    assertThat(bitmapClipper.getHeight()).isEqualTo(7);
+        {false, false, false, false, false, false, false}}));
   }
 
   @Test
@@ -59,9 +47,9 @@ class BitmapClipperTest
   @Test
   void clipWhitespace()
   {
-    assertThat(bitmapClipper.clipWhitespace()).isEqualTo(new boolean[][] {
+    assertThat(bitmapClipper.clipWhitespace()).isEqualTo(new Bitmap(new boolean[][] {
         {true, false},
-        {false, true}});
+        {false, true}}));
   }
 
 }

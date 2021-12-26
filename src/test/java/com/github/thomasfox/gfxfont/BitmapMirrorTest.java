@@ -12,36 +12,24 @@ class BitmapMirrorTest
   @BeforeEach
   void createBitmapMirror()
   {
-    bitmapMirror = new BitmapMirror(new boolean[][] {
+    bitmapMirror = new BitmapMirror(new Bitmap(new boolean[][] {
         {false, true, false},
-        {false, false, true}});
-  }
-
-  @Test
-  void getWidth()
-  {
-    assertThat(bitmapMirror.getWidth()).isEqualTo(2);
-  }
-
-  @Test
-  void getHeight()
-  {
-    assertThat(bitmapMirror.getHeight()).isEqualTo(3);
+        {false, false, true}}));
   }
 
   @Test
   void mirrorX()
   {
-    assertThat(bitmapMirror.mirrorX()).isEqualTo(new boolean[][] {
+    assertThat(bitmapMirror.mirrorX()).isEqualTo(new Bitmap(new boolean[][] {
         {false, false, true},
-        {false, true, false}});
+        {false, true, false}}));
   }
 
   @Test
   void mirrorY()
   {
-    assertThat(bitmapMirror.mirrorY()).isEqualTo(new boolean[][] {
+    assertThat(bitmapMirror.mirrorY()).isEqualTo(new Bitmap(new boolean[][] {
         {false, true, false},
-        {true, false, false}});
+        {true, false, false}}));
   }
 }

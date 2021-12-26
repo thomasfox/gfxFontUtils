@@ -25,23 +25,22 @@ public class GfxGlyphParser
     List<Glyph> result = gfxFontGlyphsStringParser.parse();
     for (Glyph glyph : result)
     {
-      addBitmapToGlyph(glyph);
+      fillBitmapIoGlyph(glyph);
     }
 
     return result;
   }
 
-  void addBitmapToGlyph(Glyph glyph)
+  void fillBitmapIoGlyph(Glyph glyph)
   {
-    boolean[][] bitmap = new boolean[glyph.width][glyph.height];
     int bitmapOffsetBytePart = glyph.bitmapOffset;
     int mask = 0x80;
-    for (int y = 0; y < glyph.height; y++)
+    for (int y = 0; y < glyph.bitmap.getHeight(); y++)
     {
-      for (int x = 0; x < glyph.width; x++)
+      for (int x = 0; x < glyph.bitmap.getWidth(); x++)
       {
         byte bitmapByte = gfxFontBitmap[bitmapOffsetBytePart];
-        bitmap[x][y] = (bitmapByte & mask) != 0;
+        glyph.bitmap.getBitmap()[x][y] = (bitmapByte & mask) != 0;
         mask >>= 1;
         if (mask == 0)
         {
@@ -50,7 +49,6 @@ public class GfxGlyphParser
         }
       }
     }
-    glyph.bitmap =  bitmap;
   }
 
   void setGfxFontBitmap(byte[] gfxFontBitmap)

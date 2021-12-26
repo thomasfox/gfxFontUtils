@@ -15,19 +15,15 @@ class GlyphTest
   void fillGlyphs()
   {
     glyph1 = new Glyph();
-    glyph1.bitmap = new boolean[][] {{true, false}, {false, true}};
+    glyph1.bitmap = new Bitmap(new boolean[][] {{false, false}, {true, false}, {false, true}});
     glyph1.bitmapOffset = 0;
-    glyph1.width = 2;
-    glyph1.height = 3;
     glyph1.xAdvance = 3;
     glyph1.xOffset = 4;
     glyph1.yOffset = -10;
 
     glyph2 = new Glyph();
-    glyph2.bitmap = new boolean[][] {{true, false}, {false, true}};
+    glyph2.bitmap = new Bitmap(new boolean[][] {{false, false}, {true, false}, {false, true}});
     glyph2.bitmapOffset = 0;
-    glyph2.width = 2;
-    glyph2.height = 3;
     glyph2.xAdvance = 3;
     glyph2.xOffset = 4;
     glyph2.yOffset = -10;
@@ -65,20 +61,6 @@ class GlyphTest
   }
 
   @Test
-  void testEquals_widthNotEqual()
-  {
-    glyph2.width = 99;
-    assertThat(glyph1.equals(glyph2)).isFalse();
-  }
-
-  @Test
-  void testEquals_heightNotEqual()
-  {
-    glyph2.height = 99;
-    assertThat(glyph1.equals(glyph2)).isFalse();
-  }
-
-  @Test
   void testEquals_xAdvanceNotEqual()
   {
     glyph2.xAdvance = 99;
@@ -102,7 +84,7 @@ class GlyphTest
   @Test
   void testEquals_bitmapNotEqual()
   {
-    glyph2.bitmap = new boolean[][] {{false, false}, {false, false}};
+    glyph2.bitmap = new Bitmap(new boolean[][] {{false, false}, {false, false}, {false, false}});
     assertThat(glyph1.equals(glyph2)).isFalse();
   }
 

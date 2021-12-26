@@ -102,8 +102,8 @@ class GfxFontGlyphsStringParserTest
 
     // assert
     assertThat(result.bitmapOffset).isEqualTo(0);
-    assertThat(result.width).isEqualTo(2);
-    assertThat(result.height).isEqualTo(10);
+    assertThat(result.bitmap.getWidth()).isEqualTo(2);
+    assertThat(result.bitmap.getHeight()).isEqualTo(10);
     assertThat(result.xAdvance).isEqualTo(11);
     assertThat(result.xOffset).isEqualTo(4);
     assertThat(result.yOffset).isEqualTo(-10);

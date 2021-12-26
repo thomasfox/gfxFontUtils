@@ -2,38 +2,23 @@ package com.github.thomasfox.gfxfont;
 
 public class BitmapRotator
 {
-  final boolean[][] originalBitmap; // first index is X, second index is Y
+  final Bitmap originalBitmap;
 
-  final int width;
-  final int height;
-
-  public BitmapRotator(boolean[][] originalBitmap)
+  public BitmapRotator(Bitmap originalBitmap)
   {
     this.originalBitmap = originalBitmap;
-    width = originalBitmap.length;
-    height = originalBitmap[0].length;
   }
 
-  public boolean[][] rotateRight()
+  public Bitmap rotateRight()
   {
-    boolean[][] result = new boolean[height][width];
-    for (int x = 0; x < width; x++)
+    Bitmap result = new Bitmap(originalBitmap.getHeight(), originalBitmap.getWidth());
+    for (int x = 0; x < originalBitmap.getWidth(); x++)
     {
-      for (int y = 0; y < height; y++)
+      for (int y = 0; y < originalBitmap.getHeight(); y++)
       {
-        result[height - 1 - y][x] = originalBitmap[x][y];
+        result.setPixel(originalBitmap.getHeight() - 1 - y, x, originalBitmap.getPixel(x, y));
       }
     }
     return result;
-  }
-
-  int getWidth()
-  {
-    return width;
-  }
-
-  int getHeight()
-  {
-    return height;
   }
 }

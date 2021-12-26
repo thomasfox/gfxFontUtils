@@ -2,53 +2,36 @@ package com.github.thomasfox.gfxfont;
 
 public class BitmapMirror
 {
-  final boolean[][] originalBitmap; // first index is X, second index is Y
+  final Bitmap originalBitmap;
 
-  final int width;
-  final int height;
-
-  public BitmapMirror(boolean[][] originalBitmap)
+  public BitmapMirror(Bitmap originalBitmap)
   {
     this.originalBitmap = originalBitmap;
-    width = originalBitmap.length;
-    height = originalBitmap[0].length;
   }
 
-  public boolean[][] mirrorX()
+  public Bitmap mirrorX()
   {
-    boolean[][] result = new boolean[width][height];
-    for (int x = 0; x < width; x++)
+    Bitmap result = new Bitmap(originalBitmap.getWidth(), originalBitmap.getHeight());
+    for (int x = 0; x < originalBitmap.getWidth(); x++)
     {
-      for (int y = 0; y < height; y++)
+      for (int y = 0; y < originalBitmap.getHeight(); y++)
       {
-        result[width - 1 - x][y] = originalBitmap[x][y];
+        result.setPixel(originalBitmap.getWidth() - 1 - x, y, originalBitmap.getBitmap()[x][y]);
       }
     }
     return result;
   }
 
-  public boolean[][] mirrorY()
+  public Bitmap mirrorY()
   {
-    boolean[][] result = new boolean[width][height];
-    for (int x = 0; x < width; x++)
+    Bitmap result = new Bitmap(originalBitmap.getWidth(), originalBitmap.getHeight());
+    for (int x = 0; x < originalBitmap.getWidth(); x++)
     {
-      for (int y = 0; y < height; y++)
+      for (int y = 0; y < originalBitmap.getHeight(); y++)
       {
-        result[x][height - 1 - y] = originalBitmap[x][y];
+        result.setPixel(x, originalBitmap.getHeight() - 1 - y, originalBitmap.getPixel(x, y));
       }
     }
     return result;
   }
-
-
-  int getWidth()
-  {
-    return width;
-  }
-
-  int getHeight()
-  {
-    return height;
-  }
-
 }

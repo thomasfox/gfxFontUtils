@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import com.github.thomasfox.gfxfont.Bitmap;
 import com.github.thomasfox.gfxfont.Font;
 import com.github.thomasfox.gfxfont.Glyph;
 
@@ -63,24 +64,19 @@ public class FontParserTest
 
       Glyph expectedFirstGlyph = new Glyph();
       expectedFirstGlyph.bitmapOffset = 0;
-      expectedFirstGlyph.width = 0;
-      expectedFirstGlyph.height = 0;
       expectedFirstGlyph.xAdvance = 3;
       expectedFirstGlyph.xOffset = 0;
       expectedFirstGlyph.yOffset = -4;
-      expectedFirstGlyph.bitmap = new boolean[0][0];
+      expectedFirstGlyph.bitmap = new Bitmap(new boolean[0][0]);
 
       Glyph expectedSecondGlyph = new Glyph();
       expectedSecondGlyph.bitmapOffset = 0;
-      expectedSecondGlyph.width = 2;
-      expectedSecondGlyph.height = 3;
       expectedSecondGlyph.xAdvance = 3;
       expectedSecondGlyph.xOffset = 1;
       expectedSecondGlyph.yOffset = -3;
-      expectedSecondGlyph.bitmap = new boolean[][]{
+      expectedSecondGlyph.bitmap = new Bitmap(new boolean[][]{
           {false, true, false},
-          {true, true, false}
-      };
+          {true, true, false}});
 
       // act
       Font result = fontParser.parse();

@@ -2,30 +2,25 @@ package com.github.thomasfox.gfxfont;
 
 public class BitmapClipper
 {
-  final boolean[][] originalBitmap; // first index is X, second index is Y
+  final Bitmap originalBitmap;
 
-  final int width;
-  final int height;
-
-  public BitmapClipper(boolean[][] originalBitmap)
+  public BitmapClipper(Bitmap originalBitmap)
   {
     this.originalBitmap = originalBitmap;
-    width = originalBitmap.length;
-    height = originalBitmap[0].length;
   }
 
-  public boolean[][] clipWhitespace()
+  public Bitmap clipWhitespace()
   {
     int xStart = getXStart();
     int xEnd = getXEnd();
     int yStart = getYStart();
     int yEnd = getYEnd();
-    boolean[][] result = new boolean[xEnd - xStart + 1][yEnd - yStart + 1];
+    Bitmap result = new Bitmap(xEnd - xStart + 1, yEnd - yStart + 1);
     for (int x = xStart; x <= xEnd; x++)
     {
       for (int y = yStart; y <= yEnd; y++)
       {
-        result[x - xStart][y - yStart] = originalBitmap[x][y];
+        result.setPixel(x - xStart, y - yStart, originalBitmap.getPixel(x, y));
       }
     }
     return result;
@@ -34,12 +29,12 @@ public class BitmapClipper
   int getXStart()
   {
     int xStart = 0;
-    while (xStart < width)
+    while (xStart < originalBitmap.getWidth())
     {
       boolean foundPixel = false;
-      for (int y = 0; y < height; y++)
+      for (int y = 0; y < originalBitmap.getHeight(); y++)
       {
-        foundPixel |= originalBitmap[xStart][y];
+        foundPixel |= originalBitmap.getPixel(xStart, y);
       }
       if (foundPixel)
       {
@@ -52,13 +47,13 @@ public class BitmapClipper
 
   int getXEnd()
   {
-    int xEnd = width - 1;
+    int xEnd = originalBitmap.getWidth() - 1;
     while (xEnd > 0)
     {
       boolean foundPixel = false;
-      for (int y = 0; y < height; y++)
+      for (int y = 0; y < originalBitmap.getHeight(); y++)
       {
-        foundPixel |= originalBitmap[xEnd][y];
+        foundPixel |= originalBitmap.getPixel(xEnd, y);
       }
       if (foundPixel)
       {
@@ -73,12 +68,12 @@ public class BitmapClipper
   int getYStart()
   {
     int yStart = 0;
-    while (yStart < height)
+    while (yStart < originalBitmap.getHeight())
     {
       boolean foundPixel = false;
-      for (int x = 0; x < width; x++)
+      for (int x = 0; x < originalBitmap.getWidth(); x++)
       {
-        foundPixel |= originalBitmap[x][yStart];
+        foundPixel |= originalBitmap.getPixel(x, yStart);
       }
       if (foundPixel)
       {
@@ -91,13 +86,13 @@ public class BitmapClipper
 
   int getYEnd()
   {
-    int yEnd = height - 1;
+    int yEnd = originalBitmap.getHeight() - 1;
     while (yEnd > 0)
     {
       boolean foundPixel = false;
-      for (int x = 0; x < width; x++)
+      for (int x = 0; x < originalBitmap.getWidth(); x++)
       {
-        foundPixel |= originalBitmap[x][yEnd];
+        foundPixel |= originalBitmap.getPixel(x, yEnd);
       }
       if (foundPixel)
       {
@@ -106,16 +101,5 @@ public class BitmapClipper
       yEnd--;
     }
     return yEnd;
-  }
-
-
-  int getWidth()
-  {
-    return width;
-  }
-
-  int getHeight()
-  {
-    return height;
   }
 }

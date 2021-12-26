@@ -12,29 +12,17 @@ class BitmapRotatorTest
   @BeforeEach
   void createBitmapRotator()
   {
-    bitmapRotator = new BitmapRotator(new boolean[][] {
+    bitmapRotator = new BitmapRotator(new Bitmap(new boolean[][] {
         {false, true, false},
-        {false, false, true}});
-  }
-
-  @Test
-  void getWidth()
-  {
-    assertThat(bitmapRotator.getWidth()).isEqualTo(2);
-  }
-
-  @Test
-  void getHeight()
-  {
-    assertThat(bitmapRotator.getHeight()).isEqualTo(3);
+        {false, false, true}}));
   }
 
   @Test
   void rotateRight()
   {
-    assertThat(bitmapRotator.rotateRight()).isEqualTo(new boolean[][] {
+    assertThat(bitmapRotator.rotateRight()).isEqualTo(new Bitmap(new boolean[][] {
         {false, true},
         {true, false},
-        {false, false}});
+        {false, false}}));
   }
 }

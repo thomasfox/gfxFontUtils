@@ -95,10 +95,10 @@ public class Font
    *
    * @return the bitmap for the String.
    */
-  public boolean[][] asBitmap(String toPrint)
+  public Bitmap asBitmap(String toPrint)
   {
     int width = getPixelWidth(toPrint);
-    boolean[][] result = new boolean[width][lineHeight];
+    Bitmap result = new Bitmap(width, lineHeight);
 
     int baseline = getBaseline();
 
@@ -107,16 +107,15 @@ public class Font
     for (byte b : isoBytesForString)
     {
       Glyph glyph = getGlyph(b);
-      int x = 0;
-      for (boolean[] xBitmap : glyph.bitmap)
+      for (int x = 0; x < glyph.bitmap.getWidth(); x++)
       {
-        int y = 0;
-        for (boolean pixel : xBitmap)
+        for (int y = 0; y < glyph.bitmap.getHeight(); y++)
         {
-          result[x + charXOffset + glyph.xOffset][y + baseline + glyph.yOffset] = pixel;
-          y++;
+          result.setPixel(
+              x + charXOffset + glyph.xOffset,
+              y + baseline + glyph.yOffset,
+              glyph.bitmap.getPixel(x, y));
         }
-        x++;
       }
       charXOffset += glyph.xAdvance;
     }

@@ -3,6 +3,7 @@ package com.github.thomasfox.gfxfont.parse;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.thomasfox.gfxfont.Bitmap;
 import com.github.thomasfox.gfxfont.Glyph;
 
 class GfxFontGlyphsStringParser
@@ -76,8 +77,9 @@ class GfxFontGlyphsStringParser
     Glyph result = new Glyph();
     CommaSeparatedStringParser withingGlyphStringParser = new CommaSeparatedStringParser(currentGlyphString);
     result.bitmapOffset = withingGlyphStringParser.nextArgumentIntNotNull();
-    result.width = withingGlyphStringParser.nextArgumentIntNotNull();
-    result.height = withingGlyphStringParser.nextArgumentIntNotNull();
+    int width = withingGlyphStringParser.nextArgumentIntNotNull();
+    int height = withingGlyphStringParser.nextArgumentIntNotNull();
+    result.bitmap = new Bitmap(width, height);
     result.xAdvance = withingGlyphStringParser.nextArgumentIntNotNull();
     result.xOffset = withingGlyphStringParser.nextArgumentIntNotNull();
     result.yOffset = withingGlyphStringParser.nextArgumentIntNotNull();

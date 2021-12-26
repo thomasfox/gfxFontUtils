@@ -14,7 +14,7 @@ class BitmapPrinterTest
   void printBitmap()
   {
     // arrange
-    boolean[][] toPrint = {{true, false, false}, {false, true, false}};
+    Bitmap toPrint = new Bitmap( new boolean[][]{{true, false, false}, {false, true, false}});
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     PrintStream printStream = new PrintStream(byteArrayOutputStream);
 
@@ -34,14 +34,14 @@ class BitmapPrinterTest
   void printBitmapAsHex_danglingBitAtEnd()
   {
     // arrange
-    boolean[][] toPrint = {
+    Bitmap toPrint = new Bitmap( new boolean[][]{
         {true, false, false, false, false, false, false},
         {true, true, false, false, false, false, false},
         {true, false, false, false, false, false, false},
         {true, false, false, false, false, false, false},
         {false, false, false, false, false, false, false},
         {false, false, false, false, false, false, false},
-        {true, false, false, false, false, false, true}};
+        {true, false, false, false, false, false, true}});
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     PrintStream printStream = new PrintStream(byteArrayOutputStream);
 
@@ -58,7 +58,7 @@ class BitmapPrinterTest
   void printBitmapAsHex_withLineEnd()
   {
     // arrange
-    boolean[][] toPrint = {
+    Bitmap toPrint = new Bitmap( new boolean[][]{
         {true, true, false, false, false, false, false, false, false, false, true},
         {true, false, false, false, false, false, false, false, false, false, false},
         {true, false, false, false, false, false, false, false, false, false, false},
@@ -66,7 +66,7 @@ class BitmapPrinterTest
         {false, false, false, false, false, false, false, false, false, false, false},
         {false, false, false, false, false, false, false, false, false, false, false},
         {true, false, false, false, false, false, false, false, false, false, false},
-        {false, false, false, false, false, false, false, false, false, false, true}};
+        {false, false, false, false, false, false, false, false, false, false, true}});
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     PrintStream printStream = new PrintStream(byteArrayOutputStream);
 
